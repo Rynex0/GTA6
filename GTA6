@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTA 6 • Leonida Rehberi | RynexDEV</title>
+    <meta name="description" content="GTA 6 Leonida Rehberi - Hileler, Harita, Bilinmeyen Yerler, Sürümler. RynexDEV tarafından hazırlandı.">
+    <style>
+        /* === GENEL AYARLAR === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+        }
+
+        body {
+            background: #0a0a0f;
+            color: #f0f0f0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* === NEON GRADYAN & IŞIK EFEKTLERİ === */
+        .neon-text {
+            background: linear-gradient(135deg, #ff2d95, #00e5ff, #ffb800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 45, 149, 0.3);
+        }
+
+        .glow {
+            box-shadow: 0 0 20px rgba(255, 45, 149, 0.2), 0 0 60px rgba(0, 229, 255, 0.1);
+        }
+
+        /* === SCROLLBAR === */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff2d95, #00e5ff);
+            border-radius: 10px;
+        }
+
+        /* === HERO / BAŞLIK === */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: radial-gradient(ellipse at 50% 30%, #1a0a2e 0%, #0a0a0f 70%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.08;
+            filter: blur(4px);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 12vw, 8rem);
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            animation: fadeUp 1s ease-out;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1rem, 3vw, 1.8rem);
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #a0a0b0;
+            margin-bottom: 2rem;
+            animation: fadeUp 1.2s ease-out;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff2d95, #cc0077);
+            padding: 0.6rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            animation: pulse 2s infinite;
+            margin-bottom: 1.5rem;
+        }
+
+        .creator-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #00e5ff;
+            margin-top: 2rem;
+            animation: fadeUp 1.5s ease-out;
+        }
+
+        .creator-badge span {
+            width: 8px;
+            height: 8px;
+            background: #00e5ff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00e5ff;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 45, 149, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(255, 45, 149, 0.8); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #666;
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* === NAVİGASYON === */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 45, 149, 0.2);
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .navbar a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #fff;
+            background: rgba(255, 45, 149, 0.15);
+            box-shadow: 0 0 15px rgba(255, 45, 149, 0.2);
+        }
+
+        /* === BÖLÜM BAŞLIKLARI === */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .section-sub {
+            color: #888;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+        }
+
+        /* === KARTLAR === */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #12121a, #1a1a28);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 45, 149, 0.4);
+            box-shadow: 0 20px 60px rgba(255, 45, 149, 0.15);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.9);
+            transition: filter 0.4s;
+        }
+
+        .card:hover .card-img {
+            filter: brightness(1.1);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-body h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .card-body p {
+            color: #999;
+            font-size: 0.95rem;
+        }
+
+        /* === HİLE KODLARI === */
+        .cheat-tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .cheat-tab {
+            background: #1a1a28;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #aaa;
+            padding: 0.6rem 1.4rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .cheat-tab.active, .cheat-tab:hover {
+            background: linear-gradient(135deg, #ff2d95, #cc0077);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .cheat-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+            display: none;
+        }
+
+        .cheat-table.active {
+            display: table;
+        }
+
+        .cheat-table th {
+            text-align: left;
+            padding: 0.8rem 1rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #666;
+            font-weight: 700;
+        }
+
+        .cheat-table td {
+            background: #12121a;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .cheat-table tr td:first-child {
+            border-radius: 12px 0 0 12px;
+            font-weight: 700;
+            color: #eee;
+        }
+
+        .cheat-table tr td:last-child {
+            border-radius: 0 12px 12px 0;
+            font-family: 'Courier New', monospace;
+            color: #00e5ff;
+            letter-spacing: 0.15em;
+            font-weight: 700;
+        }
+
+        .cheat-table tr:hover td {
+            background: #1a1a28;
+        }
+
+        /* === HARİTA === */
+        .map-container {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .map-container img {
+            width: 100%;
+            display: block;
+            filter: saturate(1.2) contrast(1.05);
+        }
+
+        .map-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10, 10, 15, 0.95) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .map-labels {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .map-tag {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            border: 1px solid rgba(255, 45, 149, 0.3);
+            color: #fff;
+        }
+
+        /* === BİLİNMEYEN YERLER === */
+        .mystery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .mystery-card {
+            background: linear-gradient(135deg, #1a0a2e 0%, #12121a 100%);
+            border: 1px solid rgba(255, 45, 149, 0.2);
+            border-radius: 16px;
+            padding: 1.8rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .mystery-card::before {
+            content: '?';
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            font-size: 6rem;
+            font-weight: 900;
+            color: rgba(255, 45, 149, 0.06);
+            pointer-events: none;
+        }
+
+        .mystery-card:hover {
+            border-color: rgba(255, 45, 149, 0.6);
+            box-shadow: 0 0 30px rgba(255, 45, 149, 0.15);
+        }
+
+        .mystery-card h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: #ff2d95;
+        }
+
+        .mystery-card p {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* === SÜRÜMLER === */
+        .edition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .edition-card {
+            background: linear-gradient(145deg, #12121a, #1a1a28);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            transition: all 0.4s;
+        }
+
+        .edition-card.featured {
+            border-color: #ff2d95;
+            box-shadow: 0 0 40px rgba(255, 45, 149, 0.2);
+        }
+
+        .edition-card.featured::before {
+            content: 'EN POPÜLER';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ff2d95, #cc0077);
+            padding: 0.3rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+        }
+
+        .edition-card h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .edition-card .price {
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 1rem 0;
+            background: linear-gradient(135deg, #ff2d95, #00e5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .edition-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 1.5rem 0;
+        }
+
+        .edition-card li {
+            padding: 0.4rem 0;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .edition-card li::before {
+            content: '✓';
+            color: #00e5ff;
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+
+        /* === GALERİ === */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: all 0.4s;
+            filter: brightness(0.8) saturate(1.1);
+            cursor: pointer;
+        }
+
+        .gallery-grid img:hover {
+            transform: scale(1.03);
+            filter: brightness(1.1) saturate(1.3);
+            box-shadow: 0 10px 40px rgba(255, 45, 149, 0.3);
+        }
+
+        /* === YAPIMCI / CREATOR BÖLÜMÜ === */
+        .creator-section {
+            padding: 5rem 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .creator-card {
+            position: relative;
+            background: linear-gradient(135deg, #1a0a2e 0%, #12121a 50%, #0a1a2a 100%);
+            border: 1px solid rgba(255, 45, 149, 0.3);
+            border-radius: 32px;
+            padding: 3rem;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: 0 0 80px rgba(255, 45, 149, 0.1), inset 0 0 60px rgba(0, 229, 255, 0.03);
+        }
+
+        .creator-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 45, 149, 0.15), transparent, rgba(0, 229, 255, 0.15), transparent);
+            animation: rotate 8s linear infinite;
+            z-index: 0;
+        }
+
+        .creator-card::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: linear-gradient(135deg, #1a0a2e 0%, #12121a 50%, #0a1a2a 100%);
+            border-radius: 30px;
+            z-index: 0;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .creator-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .creator-avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #ff2d95, #00e5ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #0a0a0f;
+            box-shadow: 0 0 40px rgba(255, 45, 149, 0.5), 0 0 80px rgba(0, 229, 255, 0.2);
+            letter-spacing: -2px;
+            animation: avatarFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes avatarFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .creator-card h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+        }
+
+        .creator-role {
+            color: #00e5ff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .creator-bio {
+            color: #bbb;
+            max-width: 650px;
+            margin: 0 auto 2.5rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .creator-bio strong {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .contact-grid {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.03em;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid transparent;
+        }
+
+        .contact-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .contact-btn.instagram {
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            color: #fff;
+        }
+
+        .contact-btn.instagram:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(253, 29, 29, 0.4);
+        }
+
+        .contact-btn.email {
+            background: linear-gradient(135deg, #00e5ff, #0077ff);
+            color: #fff;
+        }
+
+        .contact-btn.email:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(0, 119, 255, 0.4);
+        }
+
+        .contact-btn.github {
+            background: #1a1a28;
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .contact-btn.github:hover {
+            transform: translateY(-4px) scale(1.03);
+            border-color: #00e5ff;
+            box-shadow: 0 15px 40px rgba(0, 229, 255, 0.2);
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 0.6rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .tech-pill {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .tech-pill:hover {
+            color: #fff;
+            border-color: rgba(255, 45, 149, 0.5);
+        }
+
+        /* === FOOTER === */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            color: #555;
+            font-size: 0.85rem;
+            background: linear-gradient(to top, rgba(255, 45, 149, 0.03), transparent);
+        }
+
+        .footer-brand {
+            font-size: 1.3rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .footer-info {
+            color: #777;
+            margin: 0.3rem 0;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #ff2d95;
+        }
+
+        .footer-signature {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            padding: 0.6rem 1.5rem;
+            background: rgba(255, 45, 149, 0.08);
+            border: 1px solid rgba(255, 45, 149, 0.2);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #ff2d95;
+        }
+
+        .heart {
+            color: #ff2d95;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.15); }
+        }
+
+        /* === FLOATING BADGE === */
+        .floating-credit {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 45, 149, 0.4);
+            border-radius: 50px;
+            padding: 0.6rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #fff;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(255, 45, 149, 0.25);
+            transition: all 0.3s;
+        }
+
+        .floating-credit:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 45px rgba(255, 45, 149, 0.4);
+        }
+
+        .floating-credit .dot {
+            width: 8px;
+            height: 8px;
+            background: #00e5ff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00e5ff;
+            animation: blink 1.5s infinite;
+        }
+
+        .floating-credit .brand {
+            background: linear-gradient(135deg, #ff2d95, #00e5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .navbar {
+                gap: 0.2rem;
+                padding: 0.6rem 0.5rem;
+            }
+            .navbar a {
+                font-size: 0.7rem;
+                padding: 0.4rem 0.6rem;
+            }
+            .section {
+                padding: 3rem 1rem;
+            }
+            .cheat-table td, .cheat-table th {
+                padding: 0.6rem;
+                font-size: 0.8rem;
+            }
+            .cheat-table tr td:last-child {
+                font-size: 0.75rem;
+                letter-spacing: 0.05em;
+            }
+            .creator-card {
+                padding: 2rem 1.2rem;
+            }
+            .creator-avatar {
+                width: 90px;
+                height: 90px;
+                font-size: 2rem;
+            }
+            .contact-btn {
+                font-size: 0.85rem;
+                padding: 0.8rem 1.4rem;
+            }
+            .floating-credit {
+                font-size: 0.65rem;
+                padding: 0.5rem 1rem;
+                bottom: 12px;
+                right: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== HERO ==================== -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="badge">19 Kasım 2026</div>
+            <h1 class="neon-text">GTA VI</h1>
+            <p class="subtitle">Leonida Eyaleti • Vice City</p>
+            <p style="color:#999; max-width:600px; margin:0 auto 2rem; font-size:1.1rem;">
+                Jason ve Lucia'nın hikayesine hoş geldiniz. Rockstar Games'in en büyük açık dünya deneyimi, 
+                güneşli Amerika'nın en karanlık köşelerine ışık tutuyor.
+            </p>
+            <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+                <a href="#hileler" style="display:inline-block; background:linear-gradient(135deg,#ff2d95,#cc0077); color:#fff; padding:0.8rem 2rem; border-radius:50px; text-decoration:none; font-weight:700; letter-spacing:0.05em;">🎮 Hile Kodları</a>
+                <a href="#harita" style="display:inline-block; border:1px solid rgba(255,45,149,0.5); color:#fff; padding:0.8rem 2rem; border-radius:50px; text-decoration:none; font-weight:700; letter-spacing:0.05em;">🗺️ Haritayı Keşfet</a>
+            </div>
+            <div class="creator-badge">
+                <span></span> RynexDEV tarafından hazırlandı
+            </div>
+        </div>
+        <div class="scroll-hint">↓ Kaydır</div>
+    </header>
+
+    <!-- ==================== NAVİGASYON ==================== -->
+    <nav class="navbar">
+        <a href="#hileler">Hileler</a>
+        <a href="#harita">Harita</a>
+        <a href="#bilinmeyen">Bilinmeyenler</a>
+        <a href="#sürümler">Sürümler</a>
+        <a href="#galeri">Galeri</a>
+        <a href="#yapimci">Yapımcı</a>
+    </nav>
+
+    <!-- ==================== HİLE KODLARI ==================== -->
+    <section class="section" id="hileler">
+        <h2 class="section-title neon-text">Hile Kodları</h2>
+        <p class="section-sub">GTA 6'da 61 hile bulunuyor. Hileler yalnızca ana hikaye tamamlandıktan sonra açılıyor ve her birinin kendine özel bir açılma şartı var. Hileleri girmek için: Telefonu açın (Yukarı), L1/LB tuşunu basılı tutup R1/RB'ye basın ve yön tuşlarıyla kodu girin.</p>
+
+        <div class="cheat-tabs">
+            <button class="cheat-tab active" onclick="showCheat('oyuncu', this)">Oyuncu (10)</button>
+            <button class="cheat-tab" onclick="showCheat('catisma', this)">Çatışma (11)</button>
+            <button class="cheat-tab" onclick="showCheat('arac', this)">Araç (21)</button>
+            <button class="cheat-tab" onclick="showCheat('cevre', this)">Çevre (3)</button>
+            <button class="cheat-tab" onclick="showCheat('filtre', this)">Filtre (16)</button>
+        </div>
+
+        <!-- Oyuncu Hileleri -->
+        <table class="cheat-table active" id="tab-oyuncu">
+            <thead><tr><th>Hile</th><th>Açılma Şartı</th><th>Kod</th></tr></thead>
+            <tbody>
+                <tr><td>250.000 $</td><td>Ana hikayeyi bitir</td><td>↑ → ↓ ← ↑ ← ↓ →</td></tr>
+                <tr><td>Sarhoş</td><td>Alkole 2.500 $ harca</td><td>???</td></tr>
+                <tr><td>Isı Seviyesini Artır</td><td>3 yıldızlı aranmadan 25 kez kaç</td><td>← ↓ → ↓ ↑ ↓ ↑</td></tr>
+                <tr><td>Aranma Seviyesini Artır</td><td>3 yıldızlı aranmadan 50 kez kaç</td><td>← ↓ → ↓ ↑ → ↑</td></tr>
+                <tr><td>Sınırsız Odak</td><td>Ana hikayeyi bitir</td><td>↓ ↑ ↑ ↓ ↑ ↓ ↑ ↓ ↑ →</td></tr>
+                <tr><td>Düşme Hasarı Yok</td><td>40 feet'ten 20 kez düş</td><td>???</td></tr>
+                <tr><td>Paraşüt</td><td>50 atlayış (300+ feet)</td><td>???</td></tr>
+                <tr><td>Vücut Zırhı</td><td>100 antrenman tamamla</td><td>↓ ↑ ← ↑ ↑ ↑ ↑ ↑ ↓ ↓</td></tr>
+                <tr><td>Araç Tamir</td><td>Gellhorn, Thrillbilly ve Boone'da 1. ol</td><td>???</td></tr>
+                <tr><td>Sınırsız Nitro</td><td>50 takla at</td><td>???</td></tr>
+            </tbody>
+        </table>
+
+        <!-- Çatışma Hileleri -->
+        <table class="cheat-table" id="tab-catisma">
+            <thead><tr><th>Hile</th><th>Açılma Şartı</th><th>Kod</th></tr></thead>
+            <tbody>
+                <tr><td>Maksimum Cephane</td><td>Atış poligonunda 25 bronz madalya</td><td>↓ ↑ → ↓ ← ← ↑ ↑ ↓ ←</td></tr>
+                <tr><td>Sonsuz Cephane</td><td>Atış poligonunda 25 gümüş madalya</td><td>↓ ↑ → ↓ ← ← ↑ ↓ ↓ ↓</td></tr>
+                <tr><td>Şarjör Değiştirmeden Ateş</td><td>Atış poligonunda 25 altın madalya</td><td>↓ ↑ → ↓ ← ← ↑ ↓ ↓ ↑</td></tr>
+                <tr><td>Tüm Patlayıcı Silahlar</td><td>100 el bombası at</td><td>???</td></tr>
+                <tr><td>Yanıcı Cephane</td><td>100 düşmanı yak</td><td>???</td></tr>
+                <tr><td>Patlayıcı Şişeler</td><td>100 molotof at</td><td>???</td></tr>
+                <tr><td>Patlayıcı Pompalı</td><td>100 düşmana patlayıcı hasar ver</td><td>???</td></tr>
+                <tr><td>Hauners H-AT</td><td>100 aracı havaya uçur</td><td>???</td></tr>
+                <tr><td>Saldırı Gücü</td><td>Ana hikayeyi bitir</td><td>↓ ↑ ← ← → ↓ ↓ ↑ ↓</td></tr>
+                <tr><td>Patlayan Toplar</td><td>20 düşmana patlayıcı hasar ver</td><td>↓ ↑ ← ← → ↓ ↓ ↑ →</td></tr>
+                <tr><td>Araç Gücü</td><td>Araçla 25 düşman öldür</td><td>↓ ↑ ← ← → ↓ ← ↑ ↓</td></tr>
+            </tbody>
+        </table>
+
+        <!-- Araç Hileleri -->
+        <table class="cheat-table" id="tab-arac">
+            <thead><tr><th>Hile</th><th>Açılma Şartı</th><th>Kod</th></tr></thead>
+            <tbody>
+                <tr><td>Interstate Ambulans</td><td>İlerleme menüsünde keşfet</td><td>???</td></tr>
+                <tr><td>Airboat 09</td><td>5 hayatta kalma görevi</td><td>???</td></tr>
+                <tr><td>Bravado Banshee</td><td>Tüm çatışma görevleri</td><td>???</td></tr>
+                <tr><td>Tuff BMX</td><td>5 fitness görevi</td><td>???</td></tr>
+                <tr><td>Maibatsu Boomazoom</td><td>5 alışveriş görevi</td><td>← ↑ → ↓ ← ← ↑ ←</td></tr>
+                <tr><td>Nagasaki Carbon RS</td><td>Tüm keşif görevleri</td><td>???</td></tr>
+                <tr><td>'65 Vapid Dominator</td><td>Tüm fitness görevleri</td><td>???</td></tr>
+                <tr><td>Progen Emerus</td><td>Tüm araç görevleri</td><td>???</td></tr>
+                <tr><td>Şişme Flamingo</td><td>50 kokain flamingosu yok et</td><td>???</td></tr>
+                <tr><td>MTL Pumper</td><td>İlerleme menüsünde keşfet</td><td>← ↑ → ↓ ← → → ↑</td></tr>
+                <tr><td>Vapid Stanier G2 Taxi</td><td>5 spor görevi</td><td>???</td></tr>
+                <tr><td>Hauners P-996 Lazer</td><td>Tüm görevleri tamamla</td><td>???</td></tr>
+                <tr><td>HVY Bulldozer</td><td>İlerleme menüsünde keşfet</td><td>← ↑ → ↓ ← → → ↓</td></tr>
+                <tr><td>Lapwing Mallard</td><td>5 araç görevi</td><td>???</td></tr>
+                <tr><td>Brimstone Golfer</td><td>Tüm spor görevleri</td><td>???</td></tr>
+                <tr><td>Hauners Rhino Tank</td><td>Tüm hayatta kalma görevleri</td><td>???</td></tr>
+                <tr><td>Maibatsu Sanchez</td><td>5 suç görevi</td><td>???</td></tr>
+                <tr><td>Nagasaki Sea Sparrow</td><td>5 keşif görevi</td><td>???</td></tr>
+                <tr><td>Speeder 700 GT</td><td>5 çatışma görevi</td><td>???</td></tr>
+                <tr><td>Truffade Thrax</td><td>Tüm alışveriş görevleri</td><td>???</td></tr>
+                <tr><td>Western Zombie Bobber</td><td>Tüm suç görevleri</td><td>???</td></tr>
+            </tbody>
+        </table>
+
+        <!-- Çevre Hileleri -->
+        <table class="cheat-table" id="tab-cevre">
+            <thead><tr><th>Hile</th><th>Açılma Şartı</th><th>Kod</th></tr></thead>
+            <tbody>
+                <tr><td>Zamanı İleri Al</td><td>10 koleksiyon saati bul</td><td>???</td></tr>
+                <tr><td>Günün Saatini Durdur</td><td>20 koleksiyon saati bul</td><td>???</td></tr>
+                <tr><td>Havayı Değiştir</td><td>Ana hikayeyi bitir</td><td>↓ → ↑ ↓ → ↑ →</td></tr>
+            </tbody>
+        </table>
+
+        <!-- Filtre Hileleri -->
+        <table class="cheat-table" id="tab-filtre">
+            <thead><tr><th>Hile</th><th>Açılma Şartı</th><th>Kod</th></tr></thead>
+            <tbody>
+                <tr><td>Altın Saat</td><td>4 saat el ele gez</td><td>???</td></tr>
+                <tr><td>Pudra Şekeri</td><td>Tüm uzay kalıntılarını tara</td><td>???</td></tr>
+                <tr><td>İğne Deliği</td><td>Partnerinle 25 çete operasyonu temizle</td><td>???</td></tr>
+                <tr><td>Neon Orman</td><td>16 Girlypop aracını keşfet</td><td>???</td></tr>
+                <tr><td>Geçmiş Zaman</td><td>Ridgeway'i keşfet</td><td>???</td></tr>
+                <tr><td>Kataklizm</td><td>Martha's Vamos'u keşfet</td><td>↓↓↑→→↑←←→→</td></tr>
+                <tr><td>Video Kaset</td><td>Partnerinle 50 aktivite tamamla</td><td>???</td></tr>
+                <tr><td>Kara Ayna</td><td>Araç satarak 500.000 $ kazan</td><td>???</td></tr>
+                <tr><td>Migren</td><td>6 yıldızlı aranmayla 6 dakika geçir</td><td>???</td></tr>
+                <tr><td>Oyuncak Ev</td><td>Partnerinle 8 saat geçir</td><td>↓↓↑→→↑←←↓→</td></tr>
+                <tr><td>Balonlu Sakız</td><td>Tüm 24 kartı bul</td><td>???</td></tr>
+                <tr><td>Hızlı İleri</td><td>50 meditasyon tamamla</td><td>???</td></tr>
+                <tr><td>Balık Gözü</td><td>100 balık tut</td><td>???</td></tr>
+                <tr><td>Solgun Zafer</td><td>Partnerinle 50 mağaza soy</td><td>↓↓↑→→↑←←←→</td></tr>
+                <tr><td>Piksel Sanatı</td><td>Koleksiyon satarak 250.000 $ kazan</td><td>???</td></tr>
+                <tr><td>Cehennem Manzarası</td><td>100 polis aracı çal</td><td>???</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ==================== HARİTA ==================== -->
+    <section class="section" id="harita">
+        <h2 class="section-title neon-text">Leonida Haritası</h2>
+        <p class="section-sub">Vice City ve çevresindeki bölgeleri keşfedin. Topluluk tarafından oluşturulan harita, oyunun çıkışından önce bile Leonida'nın ne kadar büyük ve detaylı olduğunu gözler önüne seriyor. Toplam alan yaklaşık 85 km²'lik bir kara parçasını kapsıyor.</p>
+
+        <div class="map-container glow">
+            <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1400&q=80" alt="GTA 6 Leonida Haritası" style="filter: saturate(1.3) brightness(0.7) hue-rotate(180deg);">
+            <div class="map-overlay"></div>
+            <div class="map-labels">
+                <span class="map-tag">Vice City</span>
+                <span class="map-tag">Little Cuba</span>
+                <span class="map-tag">Port Gellhorn</span>
+                <span class="map-tag">Pelican Valley</span>
+                <span class="map-tag">Mount Kalaga</span>
+                <span class="map-tag">Grassrivers</span>
+                <span class="map-tag">Leonida Keys</span>
+                <span class="map-tag">Ambrosia</span>
+                <span class="map-tag">Lummox County</span>
+                <span class="map-tag">Breakwater Quarry</span>
+            </div>
+        </div>
+        <p style="color:#666; margin-top:1rem; font-size:0.85rem;">
+            * Harita, topluluk projeleri ve sızıntılara dayanmaktadır. Resmi harita Rockstar Games tarafından yayınlanmamıştır.
+        </p>
+    </section>
+
+    <!-- ==================== BİLİNMEYEN YERLER ==================== -->
+    <section class="section" id="bilinmeyen">
+        <h2 class="section-title neon-text">Bilinmeyen Yerler & Sırlar</h2>
+        <p class="section-sub">Leonida'da keşfedilmeyi bekleyen gizemler, kullanılmayan bölgeler ve söylentiler. Rockstar, gelecekteki içerikler için haritada kasıtlı olarak boş alanlar bıraktı.</p>
+
+        <div class="mystery-grid">
+            <div class="mystery-card">
+                <h4>🛸 Breakwater Quarry UFO</h4>
+                <p>Sızdırılan haritada Breakwater Quarry üzerinde bir UFO görülüyor. Bu, GTA 5'teki efsanevi uzaylı gizem görevlerinin geri dönüşü olabilir.</p>
+            </div>
+            <div class="mystery-card">
+                <h4>🎰 Merlin's Palace Casino</h4>
+                <p>Vice City'de bulunan bu dev kumarhane, haritada işaretli olmasına rağmen girilemiyor. Rockstar gelecekteki genişletmelerde açabilir.</p>
+            </div>
+            <div class="mystery-card">
+                <h4>🦩 Kokain Flamingoları</h4>
+                <p>Haritaya dağılmış 50 adet pembe flamingo heykeli. Hepsini yok edenler "Şişme Flamingo" aracını açıyor.</p>
+            </div>
+            <div class="mystery-card">
+                <h4>🏝️ Winding Islands</h4>
+                <p>Leonida Keys açıklarında bulunan gizemli adalar zinciri. Haritada işaretli ama hikaye görevlerinde henüz kullanılmıyor.</p>
+            </div>
+            <div class="mystery-card">
+                <h4>⛏️ Caleton Madenleri</h4>
+                <p>Kuzey Leonida'da terk edilmiş bir maden bölgesi. Hayvanat bahçesi ve maden ocakları gelecekteki DLC'ler için potansiyel.</p>
+            </div>
+            <div class="mystery-card">
+                <h4>🌿 Buckskin Swamp</h4>
+                <p>Haritanın derinliklerinde saklı bir bataklık. Vahşi yaşam ve gizli görevler barındırdığı düşünülüyor.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SÜRÜMLER ==================== -->
+    <section class="section" id="sürümler">
+        <h2 class="section-title neon-text">Sürümler</h2>
+        <p class="section-sub">GTA 6, 19 Kasım 2026'da PlayStation 5 ve Xbox Series X|S için raflarda olacak. Dijital ön siparişler açık.</p>
+
+        <div class="edition-grid">
+            <div class="edition-card">
+                <h3>Standart Sürüm</h3>
+                <div class="price">$79.99</div>
+                <ul>
+                    <li>Grand Theft Auto VI</li>
+                    <li>Vintage Vice City Paketi (Ön sipariş bonusu)</li>
+                    <li>Dijital indirme</li>
+                </ul>
+            </div>
+            <div class="edition-card featured">
+                <h3>Ultimate Sürüm</h3>
+                <div class="price">$99.99</div>
+                <ul>
+                    <li>Grand Theft Auto VI</li>
+                    <li>Vintage Vice City Paketi</li>
+                    <li>Özel kıyafetler ve araçlar</li>
+                    <li>Jason & Lucia için ekstralar</li>
+                    <li>Dijital indirme</li>
+                </ul>
+            </div>
+            <div class="edition-card">
+                <h3>Collector's Box</h3>
+                <div class="price">$399.99</div>
+                <ul>
+                    <li>Fiziksel kutu (oyun kodu ile)</li>
+                    <li>Çift taraflı Leonida haritası posteri</li>
+                    <li>Macca the Gator çizimi</li>
+                    <li>Koleksiyonluk eşyalar</li>
+                </ul>
+            </div>
+        </div>
+        <p style="color:#666; margin-top:2rem; text-align:center; font-size:0.9rem;">
+            📀 Fiziksel sürümlerde disk bulunmuyor, yalnızca indirme kodu yer alıyor. PC sürümü henüz duyurulmadı (2027 Q1 bekleniyor).
+        </p>
+    </section>
+
+    <!-- ==================== GALERİ ==================== -->
+    <section class="section" id="galeri">
+        <h2 class="section-title neon-text">Galeri</h2>
+        <p class="section-sub">Vice City'nin neon ışıkları, Leonida'nın vahşi doğası ve Jason & Lucia'nın dünyasından kareler.</p>
+
+        <div class="gallery-grid">
+            <img src="https://images.unsplash.com/photo-1535498730771-e735b998cd64?w=600&q=80" alt="Vice City Gece">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" alt="Leonida Manzara">
+            <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?w=600&q=80" alt="Vice City Sahil">
+            <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=600&q=80" alt="Şehir Işıkları">
+            <img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=600&q=80" alt="Gün Batımı">
+            <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80" alt="Şehir Manzarası">
+            <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&q=80" alt="Sokak">
+            <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80" alt="Dağ Manzarası">
+        </div>
+    </section>
+
+    <!-- ==================== YAPIMCI ==================== -->
+    <section class="creator-section" id="yapimci">
+        <h2 class="section-title neon-text" style="text-align:center; margin-bottom:2.5rem;">Yapımcı</h2>
+
+        <div class="creator-card glow">
+            <div class="creator-content">
+                <div class="creator-avatar">R</div>
+                <h2 class="neon-text">RynexDEV</h2>
+                <div class="creator-role">Full-Stack Developer • Creator</div>
+                <p class="creator-bio">
+                    Merhaba! Ben <strong>Rynex</strong>, yani <strong>RynexDEV</strong>. Web geliştirme, 
+                    yapay zeka ve dijital içerik üretimiyle ilgilenen bir geliştiriciyim. 
+                    Bu GTA 6 hayran rehberini, oyunun çıkışına sayılı günler kala sizler için özenle hazırladım. 
+                    Hileler, harita detayları, gizemli yerler ve sürüm bilgileri tek bir yerde toplandı. 
+                    Beğendiyseniz bana ulaşmaktan çekinmeyin! 💜
+                </p>
+
+                <div class="contact-grid">
+                    <a href="https://instagram.com/rynexme" target="_blank" rel="noopener" class="contact-btn instagram">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        @rynexme
+                    </a>
+                    <a href="mailto:worlducraft@gmail.com" class="contact-btn email">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        worlducraft@gmail.com
+                    </a>
+                    <a href="https://instagram.com/rynexme" target="_blank" rel="noopener" class="contact-btn github">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                        Instagram'da Takip Et
+                    </a>
+                </div>
+
+                <div class="tech-stack">
+                    <span class="tech-pill">HTML5</span>
+                    <span class="tech-pill">CSS3</span>
+                    <span class="tech-pill">JavaScript</span>
+                    <span class="tech-pill">Web Design</span>
+                    <span class="tech-pill">AI Tools</span>
+                    <span class="tech-pill">Creative Coding</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p class="footer-brand neon-text">GTA VI</p>
+        <p class="footer-info">19 Kasım 2026 • PlayStation 5 & Xbox Series X|S</p>
+        <p class="footer-info" style="margin-top:0.5rem;">Bu sayfa hayranlar tarafından oluşturulmuştur. Rockstar Games ile resmi bir bağlantısı yoktur.</p>
+
+        <div class="footer-links">
+            <a href="#hileler">Hileler</a>
+            <a href="#harita">Harita</a>
+            <a href="#bilinmeyen">Bilinmeyenler</a>
+            <a href="#sürümler">Sürümler</a>
+            <a href="#galeri">Galeri</a>
+            <a href="#yapimci">Yapımcı</a>
+        </div>
+
+        <div class="footer-signature">
+            <span class="heart">❤</span>
+            <span>Tasarım & Geliştirme: <span class="neon-text" style="font-weight:900;">RynexDEV</span></span>
+        </div>
+
+        <p style="margin-top:1.5rem; color:#444; font-size:0.78rem;">
+            📸 Instagram: <a href="https://instagram.com/rynexme" target="_blank" rel="noopener" style="color:#ff2d95; text-decoration:none; font-weight:700;">@rynexme</a>
+            &nbsp;•&nbsp;
+            ✉️ E-posta: <a href="mailto:worlducraft@gmail.com" style="color:#00e5ff; text-decoration:none; font-weight:700;">worlducraft@gmail.com</a>
+        </p>
+
+        <p style="margin-top:1rem; color:#333; font-size:0.75rem;">© 2026 RynexDEV • Tüm hakları saklıdır.</p>
+    </footer>
+
+    <!-- ==================== FLOATING CREDIT === -->
+    <a href="https://instagram.com/rynexme" target="_blank" rel="noopener" class="floating-credit" title="RynexDEV Instagram">
+        <span class="dot"></span>
+        <span>by <span class="brand">RynexDEV</span></span>
+    </a>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        function showCheat(tab, btn) {
+            // Hide all tables
+            document.querySelectorAll('.cheat-table').forEach(t => t.classList.remove('active'));
+            // Remove active class from all tabs
+            document.querySelectorAll('.cheat-tab').forEach(b => b.classList.remove('active'));
+            // Show selected table
+            document.getElementById('tab-' + tab).classList.add('active');
+            // Activate clicked button
+            btn.classList.add('active');
+        }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add subtle animation on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card, .mystery-card, .edition-card, .creator-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
